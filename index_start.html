@@ -50,26 +50,21 @@
       </div>
     </div>
 
-    <div class="container">
-
+    <div class="container border">
       <div class="row ">
         <h1 id="mainTitle">NCAA Investigation Characters</h1>
         <div id="message"></div>
         <p class="lead">Who was involved in the investigation and where are they now?</p>
+        <h3>Click on an image to read more.</h3>
       </div>
 
       <div class="row">
-        <div class="col-md-3 bg-blue">
-          <h4>Sidebar</h4>
-          <div id="navlist"></div>
-        </div>
-        <div class="col-md-9">
-           <div id="thumbnails"></div>
-          <div id="person"></div>
-        </div>
+          <div id="thumbnails"></div>
       </div>
     </div><!-- /.container -->
-
+    <div id="modals"></div>
+    <div class="row">
+</div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -81,6 +76,7 @@
       var htmlBottom = "";
       var htmlNav = "<ul>"; 
       var htmlTop = "";
+      var htmlModal ="";
 
       $(document).ready(function() {
         console.log("document ready");
@@ -104,25 +100,44 @@
           var tempName = $(this).attr("name");
           var tempLast = $(this).attr("last");
           var tempPhoto = $(this).find("photo").text();
+          //htmlTop += "<a class='negativeMargin' id='" + tempLast + "' href='' >"
+          //htmlTop += "<button data-toggle='modal' datamodel='" tempLast "Modal'>"
+          htmlTop += "<div class='img-container'>";
+          htmlTop += "<img class='person' onclick=\"openModal(\'"+tempLast+"\')\" src='" + tempPhoto + "' width='100px' height='100px' alt='player'/>";
+          htmlTop += "<h4>" + tempName + "</h4></div>";
 
-          htmlTop += "<a href='#" + tempLast + "'><img src='" + tempPhoto + "' width='100px' height='100px' alt='player'/></a>";
           htmlNav += "<li><a class='sidebar' href='#" + tempLast + "'>" + tempName + "</a></li>";
 
           //builds player profile at bottom of page for anchors
-          htmlBottom += "<div class='floatRight'><img src='" + tempPhoto + "' width='100px' height='100px' alt='player'/></div>";
-          htmlBottom += "<h3 id='" + tempLast + "'>" + tempName + "</h3>";
-          htmlBottom += "<ul><li><p>" + $(this).find("occupation").text() + "</p></li>";
-          htmlBottom += "<li><p>" + $(this).find("location").text() + "</p></li></ul>";
-          htmlBottom += "<p>" + $(this).find("role").text() + "</p>";
-          htmlBottom += "<a href='#mainTitle'>Return to Menu</a>";
-          htmlBottom += "<hr />"
+          // htmlBottom += "<div class='floatRight'><img src='" + tempPhoto + "' width='100px' height='100px' alt='player'/></div>";
+          // htmlBottom += "<h3 id='" + tempLast + "'>" + tempName + "</h3>";
+          // htmlBottom += "<ul><li><p>" + $(this).find("occupation").text() + "</p></li>";
+          // htmlBottom += "<li><p>" + $(this).find("location").text() + "</p></li></ul>";
+          // htmlBottom += "<p>" + $(this).find("role").text() + "</p>";
+          // htmlBottom += "<a href='#mainTitle'>Return to Menu</a>";
+          // htmlBottom += "<hr />"
+
+          htmlModal += '<div class="modal fade ' + tempLast + '-modal" tabindex="-1" role="dialog" aria-labelledby="' + tempLast + '-modal" aria-hidden="true">';
+          htmlModal += '<div class="modal-dialog modal-lg"><div class="modal-content">';
+          htmlModal += '<h4 class="modal-header">' + tempName + '</h4>';
+          htmlModal += '<div class="modal-body">';
+          htmlModal += "<img class='person' src='" + tempPhoto + "' width='100px' height='100px' alt='player'/>";
+          htmlModal += "<ul class='info'><li><p><strong>Occupation:</strong> " + $(this).find("occupation").text() + "</p></li>";
+          htmlModal += "<li><p><strong>Location:</strong> " + $(this).find("location").text() + "</p></li></ul>";
+          htmlModal += "<p>" + $(this).find("role").text() + "</p>";
+          htmlModal += '</div></div></div></div>';
         })
 
         htmlNav += "</ul>";
         $("#thumbnails").append(htmlTop);
         $("#navlist").append(htmlNav);
         $("#person").append(htmlBottom);
+        $("#modals").append(htmlModal);
 
+      }
+
+      function openModal(lastName){
+        $('.' + lastName + "-modal").modal('show')
       }
 
     </script>
